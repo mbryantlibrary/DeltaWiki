@@ -1,4 +1,4 @@
-package mb.DeltaWiki;
+package mb.deltawiki;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -12,8 +12,9 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import mb.DeltaWiki.model.Model;
-import mb.DeltaWiki.model.Model.PageDoesntExistException;
+import mb.deltawiki.PageServlet;
+import mb.deltawiki.model.Model;
+import mb.deltawiki.model.Model.PageDoesntExistException;
 import mockit.Expectations;
 import mockit.Mocked;
 import mockit.internal.expectations.transformation.ExpectationsTransformer;

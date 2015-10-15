@@ -1,4 +1,4 @@
-package mb.DeltaWiki;
+package mb.deltawiki;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import mb.DeltaWiki.model.Model;
-import mb.DeltaWiki.model.Model.PageDoesntExistException;
+import mb.deltawiki.model.Model;
+import mb.deltawiki.model.Model.PageDoesntExistException;
 
 @Path("/api/page/{pageName}")
 public class PageServlet {

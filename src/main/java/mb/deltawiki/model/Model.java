@@ -1,4 +1,4 @@
-package mb.DeltaWiki.model;
+package mb.deltawiki.model;
 
 public class Model {
 

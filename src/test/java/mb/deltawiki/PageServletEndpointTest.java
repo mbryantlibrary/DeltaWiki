@@ -1,4 +1,4 @@
-package mb.DeltaWiki;
+package mb.deltawiki;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
+
+import mb.deltawiki.PageServlet;
 
 
 public class PageServletEndpointTest extends JerseyTest {

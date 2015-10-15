@@ -1,4 +1,4 @@
-package mb.DeltaWiki;
+package mb.deltawiki;
 
 import java.net.URI;
 

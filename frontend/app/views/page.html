@@ -1,0 +1,12 @@
+<h1 id="pageName">{{pageName}}</h1>
+
+<div ng-if="pageNotFound" ng-hide="editing" class="jumbotron"><div class="bg-danger text-danger">Page "{{pageName}}" does not yet exist. <a href="" ng-click="enableEdit(true);">Create it</a></div></div>
+
+<span ng-hide="editing" ng-click="enableEdit(true)">{{pageContent}}</span>
+<div class="form-group" ng-show="editing">
+
+<textarea class="form-control" ng-model="editedContent"></textarea>
+
+<button type="button" class="btn btn-default" ng-click="savePage()">Save page</button>
+
+</div>

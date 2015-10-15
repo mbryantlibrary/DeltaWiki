@@ -6,7 +6,7 @@ public class Model {
 		return string;
 	}
 
-	public static class PageDoesntExistException extends Throwable {
+	public static class PageDoesntExistException extends Exception {
 
 	}
 }

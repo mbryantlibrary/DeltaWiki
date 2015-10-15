@@ -1,5 +1,7 @@
 package mb.deltawiki;
 
+import java.util.logging.Logger;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -15,6 +17,7 @@ import mb.deltawiki.model.Model.PageDoesntExistException;
 public class PageServlet {
 
     private Model model;
+    private static Logger LOG = Logger.getLogger(PageServlet.class.getName());
 
     public PageServlet() {
         model = new Model();
@@ -35,6 +38,9 @@ public class PageServlet {
             return Response.ok(result).build();
         } catch (PageDoesntExistException ex) {
             // couldn't find page, oh well, 404
+            
+            LOG.warning(String.format("GET /api/page/%1$s: Page %1$s was not found", pageName));
+            
             return Response.status(404).build();
         }
     }

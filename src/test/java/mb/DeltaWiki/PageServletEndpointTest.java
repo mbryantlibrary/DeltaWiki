@@ -1,9 +1,18 @@
 package mb.DeltaWiki;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-public class RESTtest {
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Test;
+
+
+public class PageServletEndpointTest extends JerseyTest {
 
 	// TODO GET, PUT, DELETE at /api/page
 
@@ -12,6 +21,17 @@ public class RESTtest {
 	 * 200, with JSON {pageName: '<p>', pageContent: '<content>'}. Log INFO 'GET
 	 * /api/page/<p>: 200 Accessed page <p>'.
 	 */
+	
+	@Override
+	protected Application configure() {
+		return new ResourceConfig(PageServlet.class);
+	}
+	
+	private Builder createRequestHelper() {
+		return target("api/page").request();
+	}
+	
+	
 
 	/*
 	 * TODO GET /api/page/<p> attempts to retrieve a nonexisting page; server

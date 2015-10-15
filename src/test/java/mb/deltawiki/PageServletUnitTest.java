@@ -21,65 +21,66 @@ import mockit.internal.expectations.transformation.ExpectationsTransformer;
 
 public class PageServletUnitTest {
 
-	@Mocked
-	Model model;
+    @Mocked
+    Model model;
 
-	PageServlet page;
+    PageServlet page;
 
-	@Before
-	public void setUp() {
-		page = new PageServlet();
-	}
+    @Before
+    public void setUp() {
+        page = new PageServlet();
+    }
 
-	/**
-	 * Retrieves an existing page from the database at /api/page/somePage.
-	 * Expects a HTTP 200 response and content = "some content".
-	 */
-	@Test
-	public void getExistingPageGetsContentOK() throws PageDoesntExistException {
-		final String pageContent = "some content";
+    /**
+     * Retrieves an existing page from the database at /api/page/somePage.
+     * Expects a HTTP 200 response and content = "some content".
+     */
+    @Test
+    public void getExistingPageGetsContentOK() throws PageDoesntExistException {
+        final String pageContent = "some content";
 
-		new Expectations() {
-			{
-				model.getPage("somePage");
-				result = pageContent;
-			}
-		};
+        new Expectations() {
+            {
+                model.getPage("somePage");
+                result = pageContent;
+            }
+        };
 
-		Response result = page.getPage("somePage");
+        Response result = page.getPage("somePage");
 
-		assertThat(result.getStatus(), is(200));
-		assertThat(result.getEntity(), is(pageContent));
-	}
+        assertThat(result.getStatus(), is(200));
+        assertThat(result.getEntity(), is(pageContent));
+    }
 
-	/**
-	 * Retrieves a nonexistent page from the database at /api/page/nonExistingPage.
-	 * Expects a HTTP 404 response.
-	 * @throws PageDoesntExistException
-	 */
-	@Test
-	public void gettingNonExistingPageGets404Error() throws PageDoesntExistException {
-		new Expectations() {
-			{
-				model.getPage("nonExistingPage");
-				result = new PageDoesntExistException();
-			}
-		};
+    /**
+     * Retrieves a nonexistent page from the database at
+     * /api/page/nonExistingPage. Expects a HTTP 404 response.
+     * 
+     * @throws PageDoesntExistException
+     */
+    @Test
+    public void gettingNonExistingPageGets404Error() throws PageDoesntExistException {
+        new Expectations() {
+            {
+                model.getPage("nonExistingPage");
+                result = new PageDoesntExistException();
+            }
+        };
 
-		Response result = page.getPage("nonExistingPage");
-		assertThat(result.getStatus(), is(404));
-	}
-	
-	/**
-	 * Attempts GET without page name, e.g. GET /api/page/; expects HTTP 400 response.
-	 * @throws Exception
-	 */
-	@Test
-	public void gettingWithoutPageNameGets400Error() throws Exception {
-		Response result = page.getPage("");
-		assertThat(result.getStatus(), is(400));
-	}
-	
-	
+        Response result = page.getPage("nonExistingPage");
+        assertThat(result.getStatus(), is(404));
+    }
+
+    /**
+     * Attempts GET without page name, e.g. GET /api/page/; expects HTTP 400
+     * response.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void gettingWithoutPageNameGets400Error() throws Exception {
+        Response result = page.getPage("");
+        assertThat(result.getStatus(), is(400));
+    }
 
 }

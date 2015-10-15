@@ -14,36 +14,35 @@ import mb.deltawiki.model.Model.PageDoesntExistException;
 @Path("/api/page/{pageName}")
 public class PageServlet {
 
-	private Model model;
+    private Model model;
 
-	public PageServlet() {
-		model = new Model();
-	}
+    public PageServlet() {
+        model = new Model();
+    }
 
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getPage(@PathParam("pageName") String pageName) {
-		if(pageName.isEmpty()) {
-			// guard against empty page names
-			return Response.status(400).entity("GET requested without parameter").build();
-		}
-		try {
-			// try and get page from database
-			String result = model.getPage(pageName);
-			
-			// success!
-			return Response.ok(result).build();			
-		} catch (PageDoesntExistException ex) {
-			// couldn't find page, oh well, 404
-			return Response.status(404).build();
-		}
-	}
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getPage(@PathParam("pageName") String pageName) {
+        if (pageName.isEmpty()) {
+            // guard against empty page names
+            return Response.status(400).entity("GET requested without parameter").build();
+        }
+        try {
+            // try and get page from database
+            String result = model.getPage(pageName);
 
-	@PUT
-	@Produces(MediaType.TEXT_PLAIN)
-	public String putPage() {
-		return "Test";
-	}
+            // success!
+            return Response.ok(result).build();
+        } catch (PageDoesntExistException ex) {
+            // couldn't find page, oh well, 404
+            return Response.status(404).build();
+        }
+    }
 
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public String putPage() {
+        return "Test";
+    }
 
 }

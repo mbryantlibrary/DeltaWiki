@@ -9,15 +9,16 @@ import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class App {
-	
-	private App() {}
 
-	public static void main(String[] args) throws Exception {
+    private App() {
+    }
 
-		URI baseUri = UriBuilder.fromUri("http://localhost/").port(8888).build();
-		ResourceConfig config = new ResourceConfig(PageServlet.class);
+    public static void main(String[] args) throws Exception {
 
-		Server server = JettyHttpContainerFactory.createServer(baseUri, config);
+        URI baseUri = UriBuilder.fromUri("http://localhost/").port(8888).build();
+        ResourceConfig config = new ResourceConfig(PageServlet.class);
 
-	}
+        Server server = JettyHttpContainerFactory.createServer(baseUri, config);
+
+    }
 }

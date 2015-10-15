@@ -7,9 +7,9 @@ import org.junit.Test;
 
 public class AppTest {
 
-	@Test
-	public void test() {
-		assertThat(4, is(4));
-	}
+    @Test
+    public void test() {
+        assertThat(4, is(4));
+    }
 
 }

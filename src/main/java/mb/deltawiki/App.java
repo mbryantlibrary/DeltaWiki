@@ -9,6 +9,8 @@ import org.glassfish.jersey.jetty.JettyHttpContainerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class App {
+	
+	private App() {}
 
 	public static void main(String[] args) throws Exception {
 

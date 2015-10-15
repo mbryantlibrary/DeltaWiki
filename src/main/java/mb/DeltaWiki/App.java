@@ -14,7 +14,7 @@ public class App {
     {
 		
 		URI baseUri = UriBuilder.fromUri("http://localhost/").port(8888).build();
-		ResourceConfig config = new ResourceConfig(Page.class);
+		ResourceConfig config = new ResourceConfig(PageServlet.class);
 		
 		Server server = JettyHttpContainerFactory.createServer(baseUri, config);
 		

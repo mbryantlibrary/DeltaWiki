@@ -2,7 +2,10 @@ package mb.deltawiki;
 
 import java.util.logging.Logger;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,7 +20,7 @@ import mb.deltawiki.model.Model.PageDoesntExistException;
 public class PageServlet {
 
     private Model model;
-    private static Logger LOG = Logger.getLogger(PageServlet.class.getName());
+    private static final Logger LOG = Logger.getLogger(PageServlet.class.getName());
 
     public PageServlet() {
         model = new Model();
@@ -25,7 +28,7 @@ public class PageServlet {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getPage(@PathParam("pageName") String pageName) {
+    public Response get(@PathParam("pageName") String pageName) {
         if (pageName.isEmpty()) {
             // guard against empty page names
             return Response.status(400).entity("GET requested without parameter").build();
@@ -47,8 +50,29 @@ public class PageServlet {
 
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String putPage() {
-        return "Test";
+    public Response put(@PathParam("pageName") String pageName) {
+        if(!model.exists(pageName)) {
+            return Response.status(201).build();
+        }
+        return Response.status(200).build();
     }
+
+    @HEAD
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response head(@PathParam("pageName") String pageName) {
+        if(model.exists(pageName))
+            return Response.status(200).build();
+        return Response.status(404).build();
+    }
+
+    @HEAD
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response delete(@PathParam("pageName") String pageName) {
+        if(model.exists(pageName))
+            return Response.status(200).build();
+        return Response.status(404).build();
+    }
+    
+    
 
 }

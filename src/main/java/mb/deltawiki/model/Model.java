@@ -9,4 +9,9 @@ public class Model {
 	public static class PageDoesntExistException extends Exception {
 
 	}
+
+    public boolean exists(String pageName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

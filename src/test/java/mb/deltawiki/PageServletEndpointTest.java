@@ -58,10 +58,6 @@ public class PageServletEndpointTest extends JerseyTest {
      * only headers. Log INFO 'HEAD /api/page/<p>: 200 Accessed page <p>.
      */
 
-    /*
-     * TODO OPTIONS /api/page/; server responds HTTP 200 with Allow:
-     * HEAD,GET,PUT,DELETE,OPTIONS Log INFO 'OPTIONS /api/page/: 200.'
-     */
 
     /*
      * TODO DELETE /api/page<p> where <p> exists; server responds 200 and

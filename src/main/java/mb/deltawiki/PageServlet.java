@@ -24,6 +24,7 @@ public class PageServlet {
 
     public PageServlet() {
         model = new MongoModel();
+        ((MongoModel)model).connect("deltawiki");
     }
 
     @GET

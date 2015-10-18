@@ -1,16 +1,18 @@
 package mb.deltawiki.model;
 
-import org.bson.Document;
+import static com.mongodb.client.model.Filters.eq;
 
-import com.github.fakemongo.Fongo;
+import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.result.DeleteResult;
-
-import static com.mongodb.client.model.Filters.*;
 
 public class MongoModel implements Model {
+	
+	Logger logger = LoggerFactory.getLogger(MongoModel.class);
 
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
@@ -45,12 +47,13 @@ public class MongoModel implements Model {
 
 	@Override
 	public Page getPage(String pageName) throws PageDoesntExistException {
-		Document page = mongoCollection.find(eq("pageName", pageName)).limit(1).first();
-		if (page == null) {
+		logger.debug("Retrieving page '{}'",pageName);
+		Document doc = mongoCollection.find(eq("pageName", pageName)).limit(1).first();
+		if (doc == null) {
 			throw new PageDoesntExistException();
 		}
 
-		return new Page(page);
+		return new Page(doc);
 	}
 
 	@Override

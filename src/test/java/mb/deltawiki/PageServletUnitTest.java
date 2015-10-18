@@ -1,28 +1,23 @@
 package mb.deltawiki;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import mb.deltawiki.PageServlet;
-import mb.deltawiki.model.Model;
 import mb.deltawiki.model.Model.PageDoesntExistException;
+import mb.deltawiki.model.MongoModel;
+import mb.deltawiki.model.Page;
 import mockit.Expectations;
 import mockit.Mocked;
-import mockit.internal.expectations.transformation.ExpectationsTransformer;
 
 public class PageServletUnitTest {
 
     @Mocked
-    Model model;
+    MongoModel model;
 
     PageServlet page;
 
@@ -37,19 +32,19 @@ public class PageServletUnitTest {
      */
     @Test
     public void getExistingPageGetsContentOK() throws PageDoesntExistException {
-        final String pageContent = "some content";
+    	final Page testpage = new Page("somePage", "some content");
 
         new Expectations() {
             {
                 model.getPage("somePage");
-                result = pageContent;
+                result = testpage;
             }
         };
 
         Response result = page.get("somePage");
 
         assertThat(result.getStatus(), is(200));
-        assertThat(result.getEntity(), is(pageContent));
+        assertThat(result.getEntity(), is(testpage.toJSON()));
     }
 
     /**

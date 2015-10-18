@@ -2,6 +2,7 @@ package mb.deltawiki;
 
 import java.util.logging.Logger;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
 import javax.ws.rs.PUT;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import mb.deltawiki.model.Model;
 import mb.deltawiki.model.Model.PageDoesntExistException;
+import mb.deltawiki.model.MongoModel;
 
 @Path("/api/page/{pageName}")
 public class PageServlet {
@@ -21,11 +23,11 @@ public class PageServlet {
     private static final Logger LOG = Logger.getLogger(PageServlet.class.getName());
 
     public PageServlet() {
-        model = new Model();
+        model = new MongoModel();
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("pageName") String pageName) {
         if (pageName.isEmpty()) {
             // guard against empty page names
@@ -33,7 +35,7 @@ public class PageServlet {
         }
         try {
             // try and get page from database
-            String result = model.getPage(pageName);
+            String result = model.getPage(pageName).toJSON();
 
             // success!
             return Response.ok(result).build();
@@ -63,7 +65,7 @@ public class PageServlet {
         return Response.status(404).build();
     }
 
-    @HEAD
+    @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public Response delete(@PathParam("pageName") String pageName) {
         if(model.exists(pageName))

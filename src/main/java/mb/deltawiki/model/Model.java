@@ -1,16 +1,20 @@
 package mb.deltawiki.model;
 
-public class Model {
+public interface Model {
 
-    public String getPage(String string) throws PageDoesntExistException {
-        return string;
-    }
+    public Page getPage(String string) throws PageDoesntExistException;
 
-    public static class PageDoesntExistException extends Exception {
+    public class PageDoesntExistException extends Exception {
 
     }
-
-    public boolean exists(String pageName) {
-        return pageName.equals("i_exist");
+    
+    public class PageAlreadyExistsException extends RuntimeException {
+    	
     }
+
+    public boolean exists(String pageName);
+    
+    public void create(Page page);
+    
+    public void update(Page page);
 }

@@ -14,14 +14,14 @@ public class App {
 
 	final static int PORT_NUMBER = 8888;
 	
-	static Logger logger = LoggerFactory.getLogger(App.class);
+	private static Logger LOG = LoggerFactory.getLogger(App.class);
 	
     private App() {
     }
 
     public static void main(String[] args) throws Exception {
 
-    	logger.info("Starting server on port {}",PORT_NUMBER);
+    	LOG.info("Starting server on port {}",PORT_NUMBER);
     	
         URI baseUri = UriBuilder.fromUri("http://localhost/").port(PORT_NUMBER).build();
         ResourceConfig config = new ResourceConfig(PageServlet.class);

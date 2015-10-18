@@ -2,6 +2,7 @@ package mb.deltawiki.model;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import org.bson.BSON;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,21 +12,24 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoModel implements Model {
-	
-	Logger logger = LoggerFactory.getLogger(MongoModel.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(MongoModel.class);
 
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
 	private MongoCollection<Document> mongoCollection;
+	
+	private static final String PAGE_SEARCH = "pageName";
 
+	public MongoModel() {
+	}
+	
 	public static MongoModel injectMongo(MongoClient clientToInject) {
 		MongoModel model = new MongoModel();
 		model.mongoClient = clientToInject;
 		return model;
 	}
 
-	public MongoModel() {
-	}
 
 	private void init() {
 		mongoClient = new MongoClient();
@@ -42,13 +46,13 @@ public class MongoModel implements Model {
 		// will create database if it doesn't exist
 		mongoDatabase = mongoClient.getDatabase(dbName);
 		mongoCollection = mongoDatabase.getCollection(collectionName);
-		mongoCollection.createIndex(new Document("pageName",1));
+		mongoCollection.createIndex(new Document(PAGE_SEARCH, 1));
 	}
 
 	@Override
 	public Page getPage(String pageName) throws PageDoesntExistException {
-		logger.debug("Retrieving page '{}'",pageName);
-		Document doc = mongoCollection.find(eq("pageName", pageName)).limit(1).first();
+		logger.debug("Retrieving page '{}'", pageName);
+		Document doc = mongoCollection.find(eq(PAGE_SEARCH, pageName)).limit(1).first();
 		if (doc == null) {
 			throw new PageDoesntExistException();
 		}
@@ -58,24 +62,24 @@ public class MongoModel implements Model {
 
 	@Override
 	public boolean exists(String pageName) {
-		return mongoCollection.count(eq("pageName", pageName)) > 0;
+		return mongoCollection.count(eq(PAGE_SEARCH, pageName)) > 0;
 	}
 
 	@Override
 	public void create(Page page) {
-		if(exists(page.pageName)) {
+		if (exists(page.pageName)) {
 			throw new PageAlreadyExistsException();
 		}
-		mongoCollection.insertOne(page.asDocument());		
+		mongoCollection.insertOne(page.asDocument());
 	}
 
 	@Override
 	public void update(Page page) {
-		mongoCollection.replaceOne(eq("pageName", page.pageName), page.asDocument());
+		mongoCollection.replaceOne(eq(PAGE_SEARCH, page.pageName), page.asDocument());
 	}
 
 	public void delete(String pageName) {
-		mongoCollection.deleteOne(eq("pageName", pageName));		
+		mongoCollection.deleteOne(eq(PAGE_SEARCH, pageName));
 	}
 
 }
